@@ -272,6 +272,20 @@ zend_module_entry mqseries_module_entry = {
 #if ZEND_MODULE_API_NO >= 20010901
 	PHP_MQSERIES_VERSION,
 #endif
+#if ZEND_MODULE_API_NO >= 20190128
+#ifndef TSRMLS_CC
+#define TSRMLS_CC
+#endif
+#ifndef TSRMLS_DC
+#define TSRMLS_DC
+#endif
+#ifndef TSRMLS_FETCH
+#define TSRMLS_FETCH()
+#endif
+#define PHP_JQ_ERR(e, ...) php_error_docref(NULL, e, __VA_ARGS__)
+#else
+#define PHP_JQ_ERR(e, ...) php_error_docref(NULL TSRMLS_CC, e, __VA_ARGS__)
+#endif
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
